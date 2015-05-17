@@ -14,6 +14,7 @@ Erreur ajoutDoublette(Shift * pDebShift, Membre * tabMembres);
 void afficherTableauJoueurs(Membre * tabMembres);
 Erreur suppressDoublette(Shift * pDebShift);
 void afficherDoublettes(Shift * pDebShift, Membre * tabMembres);
+int calculCategorie(int moy1, int moy2);
 void viderBuffer(void);
 
 #endif INTERFACE_H

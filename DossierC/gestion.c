@@ -150,7 +150,7 @@ Boolean verifDoubletteExisteDansShift(Inscription * pDebListeIns, int num1, int 
 }
 
 // Ajout d'une doublette dans le shift
-Erreur ajoutInscription(Shift * * pShift, int num1, int num2, double categorie)
+Erreur ajoutInscription(Shift * * pShift, int num1, int num2, int categorie)
 {
 	Inscription * pInscription = (Inscription *)malloc(sizeof(Inscription));
 

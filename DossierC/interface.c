@@ -155,7 +155,8 @@ Erreur ajoutDoublette(Shift * pDebShift, Membre * tabMembres)
 				if (doubletteExiste == FALSE)
 				{
 					Erreur codeErreur;
-					double categorie = (double)(moy1 + moy2) / 2;
+					// from interface.c
+					int categorie = calculCategorie(moy1, moy2);
 
 					// from gestion.c
 					codeErreur = ajoutInscription(&pShift, num1, num2, categorie);
@@ -317,7 +318,7 @@ void afficherDoublettes(Shift * pDebShift, Membre * tabMembres)
 				// from gestion.c
 				int iRMembre1 = rechercheMembreDansTableau(pInscription->numJoueur1, tabMembres);
 				int iRMembre2 = rechercheMembreDansTableau(pInscription->numJoueur2, tabMembres);
-				printf("Joueur 1 : %s %s, Joueur 2 : %s %s, categorie : %.1f\n",
+				printf("Joueur 1 : %s %s, Joueur 2 : %s %s, categorie : %d\n",
 					tabMembres[iRMembre1].nom, tabMembres[iRMembre1].prenom,
 					tabMembres[iRMembre2].nom, tabMembres[iRMembre2].prenom,
 					pInscription->categorie);
@@ -338,6 +339,44 @@ void afficherDoublettes(Shift * pDebShift, Membre * tabMembres)
 	}
 
 	puts("");
+}
+
+// Calcule la categorie selon la doublette des joueurs
+int calculCategorie(int moy1, int moy2)
+{
+	int moyenne = (moy1 + moy2) / 2 ;
+
+	if (moyenne < 159)
+	{
+		return 6;
+	}
+	else {
+		if (moyenne < 169)
+		{
+			return 5;
+		}
+		else {
+			if (moyenne < 179)
+			{
+				return 4;
+			}
+			else {
+				if (moyenne < 189)
+				{
+					return 3;
+				}
+				else {
+					if (moyenne < 199)
+					{
+						return 2;
+					}
+					else {
+						return 1;
+					}
+				}
+			}
+		}
+	}
 }
 
 // Fonction permettant de vider le buffer des \n et eof indésirables lors d'obtention de char, récupérée sur le SdZ

@@ -10,7 +10,7 @@ struct inscriptionLue
 {
 	int numJoueur1;
 	int numJoueur2;
-	double categorie; // Double pour une catégorie ?
+	int categorie; 
 };
 
 typedef struct inscription Inscription;
@@ -18,7 +18,7 @@ struct inscription
 {
 	int numJoueur1;
 	int numJoueur2;
-	double categorie;
+	int categorie;
 	Inscription *pSuiv;
 }; 
 
