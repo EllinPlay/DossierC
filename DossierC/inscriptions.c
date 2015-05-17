@@ -110,5 +110,5 @@ void sauverFichier(Shift * pDebShift)
 	}
 	fclose(fichierInscriptions);
 	puts("");
-	puts("Sauvegarde effectuee avec succes ! ");
+	puts("Sauvegarde effectuee avec succes ! \n");
 }

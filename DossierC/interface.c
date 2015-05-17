@@ -7,8 +7,23 @@
 void interface (Shift * pDebShift, Membre * tabMembres)
 {
 	Choix choix;
-	Erreur codeErreur = PAS_D_ERREUR;
+	Erreur codeErreur;
+	char sauveAuto = 'N';
 
+	printf("Bonjour, souhaitez-vous activer la sauvegarde automatique lors de la fermeture du programme O/N ? ");
+	// from interface.c (description en commentaire au dessus de la définition de la fonction dans interface.c)
+	scanf_s("%c", &sauveAuto);
+	while ((sauveAuto != 'N') && (sauveAuto != 'O'))
+	{
+		printf("Veuillez entrer une valeur correcte (O)ui/(N)on : ");
+		// from interface.c (Description en commentaire au-dessus de la définition de la fonction dans interface.c)
+		viderBuffer();
+		scanf_s("%c", &sauveAuto);
+	}
+
+	puts("");
+
+	puts("Info : Vous pouvez stopper une action a tout moment en entrant la valeur 0 lors d'une demande de saisie.");
 	puts("");
 
 	// from interface.c
@@ -16,6 +31,8 @@ void interface (Shift * pDebShift, Membre * tabMembres)
 
 	while (choix != SORTIR)
 	{
+
+		codeErreur = PAS_D_ERREUR;
 
 		switch (choix)
 		{
@@ -44,6 +61,11 @@ void interface (Shift * pDebShift, Membre * tabMembres)
 
 		choix = menu();
 
+	}
+
+	if (sauveAuto == 'O')
+	{
+		sauverFichier(pDebShift);
 	}
 
 }
@@ -96,9 +118,18 @@ Erreur ajoutDoublette(Shift * pDebShift, Membre * tabMembres)
 	printf("Veuillez entrer la date desiree sous la forme AAAAMMJJ : ");
 	scanf_s("%d", &choixDate);
 	printf("\n");
+
+	if (choixDate == 0) {
+		return ARRET_ACTION;
+	}
+
 	printf("Veuillez entrer l'heure desiree sous la forme HHMM : ");
 	scanf_s("%d", &choixHeure);
 	printf("\n");
+
+	if (choixHeure == 0) {
+		return ARRET_ACTION;
+	}
 
 	/*
 		pShiftSauve à NULL car pas besoin de pShiftSauve dans le cas d'un ajout, utile lors de suppression
@@ -124,6 +155,14 @@ Erreur ajoutDoublette(Shift * pDebShift, Membre * tabMembres)
 			// from interface.c
 			viderBuffer();
 			scanf_s("%c", &afficheListeJoueurs);
+			while ((afficheListeJoueurs != 'N') && (afficheListeJoueurs != 'O'))
+			{
+				printf("(O)ui / (N)on : ");
+				// from interface.c
+				viderBuffer();
+				scanf_s("%c", &afficheListeJoueurs);
+			}
+			
 
 			if (afficheListeJoueurs == 'O')
 			{
@@ -135,8 +174,17 @@ Erreur ajoutDoublette(Shift * pDebShift, Membre * tabMembres)
 
 			printf("Veuillez entrer le numero de matricule du joueur 1 : ");
 			scanf_s("%d", &num1);
+
+			if (num1 == 0) {
+				return ARRET_ACTION;
+			}
+
 			printf("\nVeuillez entrer le numero de matricule du joueur 2 : ");
 			scanf_s("%d", &num2);
+
+			if (num2 == 0) {
+				return ARRET_ACTION;
+			}
 
 			// from gestion.c
 			iRMembre1 = rechercheMembreDansTableau(num1, tabMembres);
@@ -163,6 +211,11 @@ Erreur ajoutDoublette(Shift * pDebShift, Membre * tabMembres)
 
 					// from testunitaires.c
 					// afficherShift(pShift);
+
+					if (codeErreur == PAS_D_ERREUR)
+					{
+						printf("\nAjout effectue avec succes ! \n");
+					}
 
 					return codeErreur;
 
@@ -217,11 +270,20 @@ Erreur suppressDoublette(Shift * pDebShift)
 	int choixDate, choixHeure;
 	char afficheShifts = 'N';
 
-	printf("Souhaitez-vous afficher les shifts O/N ? ");
+	printf("\nSouhaitez-vous afficher les shifts O/N ? ");
 	// from interface.c
 	viderBuffer();
 	scanf_s("%c", &afficheShifts);
+	while ((afficheShifts != 'N') && (afficheShifts != 'O'))
+	{ 
+		printf("(O)ui / (N)on : ");
+		// from interface.c
+		viderBuffer();
+		scanf_s("%c", &afficheShifts);
+	}
+
 	puts("");
+
 	if (afficheShifts == 'O')
 	{
 		afficherShiftsReduits(pDebShift);
@@ -229,9 +291,17 @@ Erreur suppressDoublette(Shift * pDebShift)
 
 	printf("Veuillez entrer la date desiree sous la forme AAAAMMJJ : ");
 	scanf_s("%d", &choixDate);
+
+	if (choixDate == 0) {
+		return ARRET_ACTION;
+	}
+
 	printf("\nVeuillez entrer l'heure desiree sous la forme HHMM : ");
 	scanf_s("%d", &choixHeure);
-	printf("\n");
+
+	if (choixHeure == 0) {
+		return ARRET_ACTION;
+	}
 
 	trouve = rechercheShift(pDebShift, choixDate, choixHeure, &pShift);
 
@@ -246,31 +316,57 @@ Erreur suppressDoublette(Shift * pDebShift)
 			Boolean trouveDoublette;
 			Inscription * pDoublette;
 			Inscription * pDoubletteSauve = NULL;
-			char afficherDoublettes = 'N';
+			char afficherDoublettesSupp = 'N';
 			int id;
 
-			printf("Souhaitez-vous afficher la liste des doublettes inscrites a ce shift O/N ? ");
-			afficherDoublettes = getchar(); // On se débarasse des \n indésirables
-			scanf_s("%c", &afficherDoublettes);
+			printf("\nSouhaitez-vous afficher la liste des doublettes inscrites a ce shift O/N ? ");
+			afficherDoublettesSupp = getchar(); // On se débarasse des \n indésirables
+			scanf_s("%c", &afficherDoublettesSupp);
+			while ((afficherDoublettesSupp != 'N') && (afficherDoublettesSupp != 'O')) 
+			{
+				printf("(O)ui / (N)on : ");
+				// from interface.c
+				viderBuffer();
+				scanf_s("%c", &afficherDoublettesSupp);
+			}
+			viderBuffer();
 
 			puts("");
 
-			// from gestion.c
-			afficherDoublettesShift(pShift);
+			if (afficherDoublettesSupp == 'O')
+			{
+				// from gestion.c
+				afficherDoublettesShift(pShift);
+			}
+
+			puts("");
 
 			printf("Quel est l'id de la doublette a supprimer ? ");
 			scanf_s("%d", &id);
 
+			while ((id > pShift->nbInscriptions) || (id < 0))
+			{
+				printf("Cet id est incorrect, entrez un id : ");
+				scanf_s("%d", &id);
+			}
+
+			if (id == 0) {
+				return ARRET_ACTION;
+			}
+
 			// from gestion.c
 			trouveDoublette = rechercheDoubletteDansShift(pShift->pDebListeIns, &pDoublette, &pDoubletteSauve, id);
-
-			printf("%d %d\n", pDoublette->numJoueur1, pDoublette->numJoueur2);
 
 			if (trouveDoublette == TRUE)
 			{
 				Erreur codeErreur;
 
 				codeErreur = suppressionInscription(&pShift, &pDoublette, &pDoubletteSauve);
+
+				if (codeErreur == PAS_D_ERREUR)
+				{
+					printf("\nSuppression effectuee avec succes ! \n");
+				}
 
 				return codeErreur;
 
@@ -295,19 +391,40 @@ void afficherDoublettes(Shift * pDebShift, Membre * tabMembres)
 	Shift * pShift = pDebShift;
 	Shift * pShiftSauve = pShift;
 
+	int jour = ((pShift->date) % 100);
+	int mois = ((pShift->date) / 100) % 100;
+	int annee = (pShift->date) / 10000;
+
+
 	puts("");
-	printf("-> Shift du %d/%d/%d : ", (pShift->date) % 100, ((pShift->date) / 100) % 100, (pShift->date) / 10000);
+	
+	printf("-> Shift du ");
+	(jour < 10) ? printf("0%d/", jour) : printf("%d/", jour);
+	(mois < 10) ? printf("0%d/", jour) : printf("%d/", jour);
+	printf("%d \n", annee);
 
 	while (pShift != NULL)
 	{
+		jour = ((pShift->date) % 100);
+		mois = ((pShift->date) / 100) % 100;
+		annee = (pShift->date) / 10000;
+
 		puts("");
 
 		if (pShift->date != pShiftSauve->date)
 		{
-			printf("-> Shift du %d/%d/%d : \n", (pShift->date) % 100, ((pShift->date) / 100) % 100, (pShift->date) / 10000);
+			printf("-> Shift du ");
+			(jour < 10) ? printf("0%d/", jour) : printf("%d/", jour);
+			(mois < 10) ? printf("0%d/", jour) : printf("%d/", jour);
+			printf("%d \n", annee);
 		}
 
-		printf("Heure : %d:%d\n", ((pShift->heure) / 100), ((pShift->heure) % 100));
+		int heure = (pShift->heure) / 100;
+		int minutes = (pShift->heure) % 100;
+
+		printf("Heure : ");
+		(heure < 10) ? printf("0%d:", heure) : printf("%d:", heure);
+		(minutes < 10) ? printf("0%d\n", minutes) : printf("%d\n", minutes);
 
 		Inscription * pInscription = pShift->pDebListeIns;
 
