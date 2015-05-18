@@ -54,8 +54,8 @@ void afficherShiftsReduits(Shift * pDebShift)
 		int mois = ((pShift->date) / 100) % 100;
 		int annee = (pShift->date) / 10000;
 
-		(jour < 100) ? printf("0%d/", jour) : printf("%d/", jour);
-		(mois < 100) ? printf("0%d/", mois) : printf("%d/", mois);
+		(jour < 10) ? printf("0%d/", jour) : printf("%d/", jour);
+		(mois < 10) ? printf("0%d/", mois) : printf("%d/", mois);
 		printf("%d ", annee);
 
 		// Affichage heure
