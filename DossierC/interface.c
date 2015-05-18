@@ -400,7 +400,7 @@ void afficherDoublettes(Shift * pDebShift, Membre * tabMembres)
 	
 	printf("-> Shift du ");
 	(jour < 10) ? printf("0%d/", jour) : printf("%d/", jour);
-	(mois < 10) ? printf("0%d/", jour) : printf("%d/", jour);
+	(mois < 10) ? printf("0%d/", mois) : printf("%d/", mois);
 	printf("%d \n", annee);
 
 	while (pShift != NULL)
@@ -415,7 +415,7 @@ void afficherDoublettes(Shift * pDebShift, Membre * tabMembres)
 		{
 			printf("-> Shift du ");
 			(jour < 10) ? printf("0%d/", jour) : printf("%d/", jour);
-			(mois < 10) ? printf("0%d/", jour) : printf("%d/", jour);
+			(mois < 10) ? printf("0%d/", mois) : printf("%d/", mois);
 			printf("%d \n", annee);
 		}
 

@@ -60,15 +60,7 @@ void afficherShiftsReduits(Shift * pDebShift)
 
 		// Affichage heure
 		int minutes = (pShift->heure) % 100;
-
-		if (minutes < 10)
-		{
-			printf("%d:0%d", (pShift->heure) / 100, (pShift->heure) % 100);
-		}
-		else
-		{
-			printf("%d:%d", (pShift->heure) / 100, (pShift->heure) % 100);
-		}
+		(minutes < 10) ? printf("%d:0%d", (pShift->heure) / 100, (pShift->heure) % 100) : printf("%d:%d", (pShift->heure) / 100, (pShift->heure) % 100);
 
 		// Affichage places restantes
 		printf(" %d place(s) restante(s)", 16 - (pShift->nbInscriptions));
