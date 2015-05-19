@@ -32,15 +32,13 @@ void lexique(Erreur codeErreur)
 			printf("\nShift inexistant !\n");
 			break;
 		case SHIFT_COMPLET:
-			printf("\nShift compet !\n");
+			printf("\nShift complet !\n");
+			break;
 		case SHIFT_VIDE:
 			printf("\nShift vide !\n");
 			break;
-		case MEMBRE_1_INEXISTANT:
-			printf("\nMembre 1 inexistant !");
-			break;
-		case MEMBRE_2_INEXISTANT:
-			printf("\nMembre 2 inexistant !");
+		case MEMBRE_INEXISTANT:
+			printf("\nMembre inexistant !\n");
 			break;
 		case DOUBLETTE_EXISTANTE_SHIFT:
 			printf("\nDoublette existante dans le shift !\n");

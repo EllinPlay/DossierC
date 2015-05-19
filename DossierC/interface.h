@@ -9,7 +9,7 @@
 
 void interface (Shift * pDebShift, Membre * tabMembres);
 Choix menu(void);
-Choix obtentionChoix();
+Choix obtentionChoix(void);
 Erreur ajoutDoublette(Shift * pDebShift, Membre * tabMembres);
 void afficherTableauJoueurs(Membre * tabMembres);
 Erreur suppressDoublette(Shift * pDebShift);

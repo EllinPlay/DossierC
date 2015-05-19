@@ -13,7 +13,7 @@ int rechercheMembreDansTableau(int num,  Membre * tabMembres);
 Boolean verifDoubletteExisteDansShift(Inscription * pDebListeIns, int num1, int num2);
 Erreur ajoutInscription(Shift * * pShift, int num1, int num2, int categorie);
 void afficherDoublettesShift(Shift * pShift);
-Boolean rechercheDoubletteDansShift(Inscription * pDebListeIns, Inscription * * pDoublette, Inscription * * pDoubletteSauve, int id);
+Boolean rechercheDoubletteDansShift(Inscription * pDebListeIns, Inscription * * pDoublette, Inscription * * pDoubletteSauve, int num1, int num2);
 Erreur suppressionInscription(Shift * * pShift, Inscription * * pDoublette, Inscription * * pDoubletteSauve);
 
 #endif

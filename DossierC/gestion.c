@@ -63,7 +63,7 @@ void afficherShiftsReduits(Shift * pDebShift)
 		(minutes < 10) ? printf("%d:0%d", (pShift->heure) / 100, (pShift->heure) % 100) : printf("%d:%d", (pShift->heure) / 100, (pShift->heure) % 100);
 
 		// Affichage places restantes
-		printf(" %d place(s) restante(s)", 16 - (pShift->nbInscriptions));
+		printf(" %d place(s) restante(s)", NB_DOUBLETTES_SHIFT - (pShift->nbInscriptions));
 
 		puts("");
 
@@ -166,13 +166,13 @@ void afficherDoublettesShift(Shift * pShift)
 }
 
 // Recherche l'existence de la doublette dans le shift suivant l'id obtenu
-Boolean rechercheDoubletteDansShift(Inscription * pDebListeIns, Inscription * * pDoublette, Inscription * * pDoubletteSauve, int id)
+Boolean rechercheDoubletteDansShift(Inscription * pDebListeIns, Inscription * * pDoublette, Inscription * * pDoubletteSauve, int num1, int num2)
 {
 	int i = 1;
 
 	*pDoublette = pDebListeIns;
 
-	while ((*pDoublette != NULL) && (i < id))
+	while ((*pDoublette != NULL) && !(((*pDoublette)->numJoueur1 == num1) && ((*pDoublette)->numJoueur2 == num2)))
 	{
 		*pDoubletteSauve = *pDoublette;
 		*pDoublette = (*pDoubletteSauve)->pSuiv;
@@ -194,7 +194,7 @@ Erreur suppressionInscription(Shift * * pShift, Inscription * * pDoublette, Insc
 {
 	if (*pDoublette == (*pShift)->pDebListeIns)
 	{
-		(*pShift)->pDebListeIns = NULL;
+		(*pShift)->pDebListeIns = (*pDoublette)->pSuiv;
 	}
 	else
 	{
@@ -204,7 +204,8 @@ Erreur suppressionInscription(Shift * * pShift, Inscription * * pDoublette, Insc
 	(*pShift)->nbInscriptions--;
 
 	free(*pDoublette);
-	*pDoublette = NULL; // Après quelques recherches, cette ligne serait conseillée car free() supprime l'allocation mémoire mais ne met pas le pointeur a NULL par défaut
+	*pDoublette = NULL;
+	
 
 	return PAS_D_ERREUR;
 }

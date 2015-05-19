@@ -144,11 +144,10 @@ Erreur ajoutDoublette(Shift * pDebShift, Membre * tabMembres)
 	}
 	else
 	{
-		if (pShift->nbInscriptions < 16)
+		if (pShift->nbInscriptions < NB_DOUBLETTES_SHIFT)
 		{
 			int num1, num2, iRMembre1, iRMembre2;
-			int moy1 = 0;
-			int moy2 = 0;
+			int moy1, moy2;
 			char afficheListeJoueurs = 'N';
 
 			printf("Souhaitez-vous affichez la liste des joueurs et leur numero de matricule O/N ? ");
@@ -228,14 +227,7 @@ Erreur ajoutDoublette(Shift * pDebShift, Membre * tabMembres)
 			}
 			else
 			{
-				if (iRMembre1 >= NB_MEMBRES_FICHIER)
-				{
-					return MEMBRE_1_INEXISTANT;
-				}
-				else
-				{
-					return MEMBRE_2_INEXISTANT;
-				}
+				return MEMBRE_INEXISTANT;
 			}
 		}
 		else
@@ -317,7 +309,7 @@ Erreur suppressDoublette(Shift * pDebShift)
 			Inscription * pDoublette;
 			Inscription * pDoubletteSauve = NULL;
 			char afficherDoublettesSupp = 'N';
-			int id;
+			int num1, num2;
 
 			printf("\nSouhaitez-vous afficher la liste des doublettes inscrites a ce shift O/N ? ");
 			afficherDoublettesSupp = getchar(); // On se débarasse des \n indésirables
@@ -341,32 +333,36 @@ Erreur suppressDoublette(Shift * pDebShift)
 
 			puts("");
 
-			printf("Quel est l'id de la doublette a supprimer ? ");
-			scanf_s("%d", &id);
+			printf("Quel est le numero du joueur 1 ? ");
+			scanf_s("%d", &num1);
 
-			while ((id > pShift->nbInscriptions) || (id < 0))
-			{
-				printf("Cet id est incorrect, entrez un id : ");
-				scanf_s("%d", &id);
+			if (num1 == 0) {
+				return ARRET_ACTION;
 			}
 
-			if (id == 0) {
+			printf("Quel est le numero du joueur 2 ? ");
+			scanf_s("%d", &num2);
+
+			if (num2 == 0) {
 				return ARRET_ACTION;
 			}
 
 			// from gestion.c
-			trouveDoublette = rechercheDoubletteDansShift(pShift->pDebListeIns, &pDoublette, &pDoubletteSauve, id);
+			trouveDoublette = rechercheDoubletteDansShift(pShift->pDebListeIns, &pDoublette, &pDoubletteSauve, num1, num2);
 
 			if (trouveDoublette == TRUE)
 			{
 				Erreur codeErreur;
 
+				// from gestion.c
 				codeErreur = suppressionInscription(&pShift, &pDoublette, &pDoubletteSauve);
 
 				if (codeErreur == PAS_D_ERREUR)
 				{
 					printf("\nSuppression effectuee avec succes ! \n");
 				}
+
+
 
 				return codeErreur;
 
@@ -401,7 +397,7 @@ void afficherDoublettes(Shift * pDebShift, Membre * tabMembres)
 	printf("-> Shift du ");
 	(jour < 10) ? printf("0%d/", jour) : printf("%d/", jour);
 	(mois < 10) ? printf("0%d/", mois) : printf("%d/", mois);
-	printf("%d \n", annee);
+	printf("%d", annee);
 
 	while (pShift != NULL)
 	{
@@ -461,29 +457,29 @@ void afficherDoublettes(Shift * pDebShift, Membre * tabMembres)
 // Calcule la categorie selon la doublette des joueurs
 int calculCategorie(int moy1, int moy2)
 {
-	int moyenne = (moy1 + moy2) / 2 ;
+	double moyenne = (double)(moy1 + moy2) / 2 ;
 
-	if (moyenne < 159)
+	if (moyenne <= 159)
 	{
 		return 6;
 	}
 	else {
-		if (moyenne < 169)
+		if (moyenne <= 169)
 		{
 			return 5;
 		}
 		else {
-			if (moyenne < 179)
+			if (moyenne <= 179)
 			{
 				return 4;
 			}
 			else {
-				if (moyenne < 189)
+				if (moyenne <= 189)
 				{
 					return 3;
 				}
 				else {
-					if (moyenne < 199)
+					if (moyenne <= 199)
 					{
 						return 2;
 					}

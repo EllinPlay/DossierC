@@ -8,8 +8,6 @@
 #include "shifts.h"
 #include "gestion.h"
 
-#define FICHIER_TEMP "temp.dat"
-
 // Charge les shifts et leurs doulettes à partir du fichier inscriptions.dat
 Erreur chargerFichierInscriptions(Shift * * pDebShift)
 {

@@ -5,8 +5,8 @@
 
 #define FICHIER_SHIFTS "datesOrgShifts.dat"
 
-typedef struct inscriptionLue InscriptionEnreg;
-struct inscriptionLue
+typedef struct inscriptionEnreg InscriptionEnreg;
+struct inscriptionEnreg
 {
 	int numJoueur1;
 	int numJoueur2;
